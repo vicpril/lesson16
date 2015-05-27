@@ -1,46 +1,39 @@
 function formReset() {
     $('div.container-fluid').attr('data-show', "");
-    $('form').find("input.form-control, textarea").val("");
-    $(':radio[value=0]').prop('checked', true);
-    $(':checkbox').prop('checked', false);
-    $('option:selected').removeAttr("selected");
+    $('form .clear_form').each(function () {
+        $(this).val('');
+    });
+    $('form input[name=price]').val(0);
+    $('form input.set_form, select.set_form').val(['0', 'private', '', '641780']);
     $('input[type=submit]').val('Подать объявление');
     $('input[type=submit]').attr('formaction', 'index.php');
-    $('.cancel').hide();
 }
 
 function showExp(exp) {
     $('div.container-fluid').attr('data-show', exp.id);
     var show = $('div.container-fluid').attr('data-show');
-    if (exp.private == 0) {
-        $(':radio[value=0]').prop('checked', true);
-    } else {
-        $(':radio[value=1]').prop('checked', true);
-    }
-    if (exp.allow_mails == "checked") {
-        $(':checkbox').prop('checked', true);
-    } else {
-        $(':checkbox').prop('checked', false);
-    }
-    $('option[value=' + exp.location_id + ']').attr("selected", "selected");
-    if (exp.category_id !== "") {
-        $('option[value=' + exp.category_id + ']').attr("selected", "selected");
-    }
-    $('.s_name').val(exp.seller_name);
-    $('.email').val(exp.email);
-    $('.phone').val(exp.phone);
-    $('.title').val(exp.title);
-    $('.des').val(exp.des);
-    $('.price').val(exp.price);
+    $('form .clear_form').each(function () {
+        var name = $(this).attr('name');
+        $(this).val(exp[name]);
+    });
+    $('form input.price').val(exp.price);
+    $('form input.set_form, form select.set_form').val([
+        exp.private,
+        exp.allow_mails,
+        exp.location_id,
+        exp.category_id
+    ]); // присвоение чеков и селектов
     $('input[type=submit]').val('Изменить объявление');
     $('input[type=submit]').attr('formaction', 'index.php?id=' + show);
-    $('.cancel').show();
+//    $('.cancel').show();
 }
 
 $(document).ready(function () {
-    $('a.cancel').on('click', function(){formReset();});   
-    
-    $('a.show').on('click', function () {
+    $('a.cancel').on('click', function () {
+        formReset();
+    });
+
+    $('a[name=show]').on('click', function () {
         var tr = $(this).closest('tr');
         var id = tr.attr('data-id');
         $.getJSON('ajax.php?show=' + id,
@@ -52,7 +45,7 @@ $(document).ready(function () {
 
     });
 
-    $('a.delete').on('click', function () {
+    $('a[name=delete]').on('click', function () {
         var tr = $(this).closest('tr');
         var id = tr.attr('data-id');
         var show = $('div.container-fluid').attr('data-show');

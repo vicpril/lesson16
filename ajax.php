@@ -13,9 +13,7 @@ if (isset($_GET['delete'])) {
 
 if (isset($_GET['show'])) {
     $id = (int) $_GET['show'];
-    
-    $result = $mysqli->selectRow('SELECT * FROM explanations WHERE id=?d', $id);
+    $result = Notice_board::instance()->display($id);
     echo json_encode($result);
-    
 }
 ?>

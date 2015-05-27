@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.28, created on 2015-05-08 13:00:53
+<?php /* Smarty version 2.6.28, created on 2015-05-27 15:55:34
          compiled from header_exp.tpl */ ?>
 <!DOCTYPE HTML>
 <HTML>
@@ -14,12 +14,5 @@
         <!-- Latest compiled and minified CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 
-        <!-- Optional theme -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
-
-        <!-- Latest compiled and minified JavaScript -->
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-
-
+   
     </HEAD>
-

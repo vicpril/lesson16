@@ -52,6 +52,12 @@ class Notice_board {
 
     public function display($show = '') {
         global $smarty;
+        global $mysqli;
+        
+        if ($show !== '') {
+            $result = $mysqli->selectRow('SELECT * FROM explanations WHERE id=?d', $show);
+            return $result;
+        }
 
         if (isset($_GET['show']) && isset($this->board[$_GET['show']])) {
             $show = $_GET['show'];

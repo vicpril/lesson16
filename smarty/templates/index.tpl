@@ -16,19 +16,25 @@
                 <div class="visible-md visible-sm">
                     {include file="form_small.tpl"}
                 </div>
-
             </div>
 
-            <div class="col-sm-8 col-sm-offset-4">
-                <div id="container" class="alert alert-success alert-dismissible" style="display: none" role="alert">
-                    <span style="float: right;
-                                " 
-                          onclick="$('#container').fadeOut('fast');return false;" 
-                          class="btn btn-xs glyphicon glyphicon-remove" aria-hidden="true">
-                    </span>
-                    <div id="container-info"></div>
+            <div class="col-sm-8 col-sm-offset-4" 
+                 style="position: relative;">
+                
+                <div style="position: absolute;
+                            width: 100%;
+                            z-index: 1000;
+                            padding-right: 30px;">
+                    <div id="container" class="alert alert-success alert-dismissible" style="display: none" role="alert">
+                        <span style="float: right;" 
+                              onclick="$('#container').fadeOut('fast'); return false;" 
+                              class="btn btn-xs glyphicon glyphicon-remove" aria-hidden="true">
+                        </span>
+                        <div id="container-info"></div>
+                    </div>
                 </div>
-
+                
+                
                 {include file="table.tpl"}
             </div>
         </div>
