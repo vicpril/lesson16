@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.28, created on 2015-05-27 15:25:58
+<?php /* Smarty version 2.6.28, created on 2015-05-28 19:55:19
          compiled from footer.tpl */ ?>
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

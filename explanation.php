@@ -35,7 +35,24 @@ class Explanation {
     public function save() {
         global $mysqli;
         $vars = get_object_vars($this);
-        $mysqli->query('REPLACE INTO explanations(?#) VALUES(?a)', array_keys($vars), array_values($vars));
+        $rep = $mysqli->query('REPLACE INTO explanations(?#) VALUES(?a)', array_keys($vars), array_values($vars));
+        if ($rep > 0) {
+            $result['status'] = 'success';
+            
+            if ($vars['id'] ==''){
+                $q = $mysqli->selectrow('SELECT max(id) FROM explanations');
+                $result['id'] = $q['max(id)'];
+                $result['message'] = "Объявление #".$result['id']." успешно добавлено.";
+            } else{
+                $result['id'] = $vars['id'];
+                $result['message'] = "Объявление #".$result['id']." успешно обновлено.";
+            }
+        } else {
+            $result['status'] = 'error';
+            $result['message'] = "Объявление не было добавлено.";
+        }
+        
+        return $result;
     }
 
     public function getValue() {

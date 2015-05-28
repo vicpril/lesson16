@@ -1,4 +1,5 @@
 function formReset() {
+
     $('div.container-fluid').attr('data-show', "");
     $('form .clear_form').each(function () {
         $(this).val('');
@@ -28,55 +29,123 @@ function showExp(exp) {
 //    $('.cancel').show();
 }
 
-$(document).ready(function () {
-    $('a.cancel').on('click', function () {
-        formReset();
-    });
+function show_alert(status, text) {
+    switch (status) {
+        case 'success':
+            $('#container').removeClass('alert-danger').addClass('alert-success');
+            break;
+        case 'error':
+            $('#container').removeClass('alert-success').addClass('alert-danger');
+            break;
+    }
+    ;
+    $('#container-info').html(text);
+    $('#container').fadeIn('slow');
+}
 
-    $('a[name=show]').on('click', function () {
-        var tr = $(this).closest('tr');
-        var id = tr.attr('data-id');
-        $.getJSON('ajax.php?show=' + id,
-                function (response) {
+function click_Del(btn) {
+    var tr = $(btn).closest('tr');
+    var id = tr.attr('data-id');
+    var show = $('div.container-fluid').attr('data-show');
+    var title = tr.children('td:first').html();
+
+    $.getJSON('ajax.php?delete=' + id,
+            function (response) {
+                if (response.status == 'success') {
+                    tr.fadeOut('slow', function () {
+                        if (id == show) {
+                            formReset();
+                            show = '';
+                        }
+                        $(this).remove();
+                        if ($('tbody tr')[0] == null) {
+                            response.message += "<br>На доске больше нет объявлений.";
+                        }
+
+                    });
+                }
+                show_alert(response.status, response.message);
+            }
+    );
+}
+
+function click_Show(exp) {
+    var tr = $(exp).closest('tr');
+    var id = tr.attr('data-id');
+    $.getJSON('ajax.php?show=' + id,
+            function (response) {
+                $('form.form-horizontal').fadeOut('fast', function () {
                     formReset();
                     showExp(response);
-                }
-        );
+                    $('form.form-horizontal').fadeIn('fast');
+                });
+                console.log(response);
+            });
+}
 
+function addExpOnTable(tr, row) {
+    tr.before(row);
+    $(tr).prev(tr).find('a[name=delete]').on('click', function () {
+        click_Del(this);
+    });
+    $(tr).prev(tr).find('a[name=show]').on('click', function () {
+        click_Show(this);
+    });
+
+    $(tr).prev(tr).fadeIn('fast');
+
+}
+
+$(document).ready(function () {
+    $('a.cancel').on('click', function () {
+        $('form.form-horizontal').fadeOut('fast', function () {
+            formReset();
+            $('form.form-horizontal').fadeIn('fast');
+        });
+    });
+
+
+    $('a[name=show]').on('click', function () {
+        click_Show(this);
     });
 
     $('a[name=delete]').on('click', function () {
-        var tr = $(this).closest('tr');
-        var id = tr.attr('data-id');
-        var show = $('div.container-fluid').attr('data-show');
-        var title = tr.children('td:first').html();
+        click_Del(this);
+    });
 
-        $.getJSON('ajax.php?delete=' + id,
+    $('form.form-horizontal').on('submit', function () {
+        var id = $('div.container-fluid').attr('data-show');
+        var exp = $('form.form-horizontal:visible').serialize();
+        $.post('ajax.php?id=' + id,
+                exp,
                 function (response) {
                     if (response.status == 'success') {
-                        tr.fadeOut('slow', function () {
-                            if (id == show) {
+                        var row = $(response.row);
+                        row.attr('style', 'display: none');
+                        row.attr('data-id', response.id);
+                        if (id !== '') {
+                            var tr = $('tbody tr[data-id=' + id + ']');
+                            tr.fadeOut('fast', function () {
+                                addExpOnTable(tr, row);
+                            });
+                            $('form.form-horizontal').fadeOut('fast', function () {
                                 formReset();
-                                show = '';
-                            }
-                            ;
-                            $(this).remove();
-                            $('#container').removeClass('alert-danger').addClass('alert-success');
-                            if ($('tbody tr')[0] == null) {
-                                var addMessage = "<br>На доске больше нет объявлений.";
-                            } else {
-                                var addMessage = "";
-                            }
-                            ;
-                            $('#container-info').html(response.message + addMessage);
-                            $('#container').fadeIn('slow');
-                        })
-                    } else if (response.status == 'error') {
-                        $('#container').removeClass('alert-success').addClass('alert-danger');
-                        $('#container-info').html(response.message);
-                        $('#container').fadeIn('slow');
+                                $('form.form-horizontal').fadeIn('fast');
+                            });
+                        } else {
+                            var tr = $('tbody tr:first');
+                            $('form.form-horizontal').fadeOut('fast', function () {
+                                formReset();
+                                $('form.form-horizontal').fadeIn('fast');
+                            });
+                            addExpOnTable(tr, row);
+                        }
                     }
-                }
-        );
+                    show_alert(response.status, response.message);
+                },
+                'json'
+                );
     });
-})
+});
+
+

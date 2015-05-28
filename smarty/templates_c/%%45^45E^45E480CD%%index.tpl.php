@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.28, created on 2015-05-27 15:38:13
+<?php /* Smarty version 2.6.28, created on 2015-05-28 19:55:18
          compiled from index.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
 smarty_core_load_plugins(array('plugins' => array(array('modifier', 'default', 'index.tpl', 1, false),)), $this); ?>
@@ -10,7 +10,7 @@ unset($_smarty_tpl_vars);
 
 <body style="padding: 10px;">
 
-    <div class="container-fluid" data-show="<?php echo ((is_array($_tmp=@$this->_tpl_vars['show'])) ? $this->_run_mod_handler('default', true, $_tmp, '') : smarty_modifier_default($_tmp, '')); ?>
+    <div class="container-fluid" data-show="<?php echo ((is_array($_tmp=@$this->_tpl_vars['name']['id'])) ? $this->_run_mod_handler('default', true, $_tmp, '') : smarty_modifier_default($_tmp, '')); ?>
 ">
         <div class="row">
             <div id="nav-in" style="padding: 30px;
@@ -47,7 +47,7 @@ unset($_smarty_tpl_vars);
                               onclick="$('#container').fadeOut('fast'); return false;" 
                               class="btn btn-xs glyphicon glyphicon-remove" aria-hidden="true">
                         </span>
-                        <div id="container-info"></div>
+                        <div id="container-info" class="text-center"></div>
                     </div>
                 </div>
                 

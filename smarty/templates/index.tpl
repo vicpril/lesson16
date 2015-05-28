@@ -2,7 +2,7 @@
 
 <body style="padding: 10px;">
 
-    <div class="container-fluid" data-show="{$show|default:''}">
+    <div class="container-fluid" data-show="{$name.id|default:''}">
         <div class="row">
             <div id="nav-in" style="padding: 30px;
                  height: 100%;
@@ -30,7 +30,7 @@
                               onclick="$('#container').fadeOut('fast'); return false;" 
                               class="btn btn-xs glyphicon glyphicon-remove" aria-hidden="true">
                         </span>
-                        <div id="container-info"></div>
+                        <div id="container-info" class="text-center"></div>
                     </div>
                 </div>
                 

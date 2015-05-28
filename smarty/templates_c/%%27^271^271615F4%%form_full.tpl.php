@@ -1,9 +1,12 @@
-<?php /* Smarty version 2.6.28, created on 2015-05-27 16:31:56
+<?php /* Smarty version 2.6.28, created on 2015-05-28 19:55:18
          compiled from form_full.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
-smarty_core_load_plugins(array('plugins' => array(array('modifier', 'default', 'form_full.tpl', 20, false),array('function', 'html_options', 'form_full.tpl', 55, false),)), $this); ?>
-<form class="form-horizontal form-group-sm" method="post" accept-charset="utf-8">
-        <div class="form-group ">
+smarty_core_load_plugins(array('plugins' => array(array('modifier', 'default', 'form_full.tpl', 22, false),array('function', 'html_options', 'form_full.tpl', 57, false),)), $this); ?>
+<form class="form-horizontal form-group-sm" method="post" 
+      accept-charset="utf-8" 
+      onsubmit="return false;" >
+    
+    <div class="form-group ">
         <div class="col-xs-offset-4 col-xs-8">
             <div class="radio">
                 <label>
@@ -96,7 +99,7 @@ smarty_core_load_plugins(array('plugins' => array(array('modifier', 'default', '
         <label class="col-xs-4 text-right">Цена</label> 
         <div class="col-xs-8">
             <div class="input-group">
-                <input class="price form-control" type="text" maxlength="9" value="<?php echo ((is_array($_tmp=@$this->_tpl_vars['name']['price'])) ? $this->_run_mod_handler('default', true, $_tmp, '0') : smarty_modifier_default($_tmp, '0')); ?>
+                <input class="clear_form price form-control" type="text" maxlength="9" value="<?php echo ((is_array($_tmp=@$this->_tpl_vars['name']['price'])) ? $this->_run_mod_handler('default', true, $_tmp, '0') : smarty_modifier_default($_tmp, '0')); ?>
 " name="price">
                 <span class="input-group-addon">.руб</span>
             </div>

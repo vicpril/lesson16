@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.28, created on 2015-05-23 22:22:56
+<?php /* Smarty version 2.6.28, created on 2015-05-28 19:55:19
          compiled from table.tpl */ ?>
 <h2 class="sub-header text-center">Доска объявлений</h2>
 <form>

@@ -1,5 +1,7 @@
-<form class="form-horizontal form-group-sm" method="post" accept-charset="utf-8">
-    {*<h3 class="sub-header text-center">Объявление</h3>*}
+<form class="form-horizontal form-group-sm" method="post" 
+      accept-charset="utf-8" 
+      onsubmit="return false;" >
+    
     <div class="form-group ">
         <div class="col-xs-offset-4 col-xs-8">
             <div class="radio">
@@ -85,7 +87,7 @@
         <label class="col-xs-4 text-right">Цена</label> 
         <div class="col-xs-8">
             <div class="input-group">
-                <input class="price form-control" type="text" maxlength="9" value="{$name.price|default:'0'}" name="price">
+                <input class="clear_form price form-control" type="text" maxlength="9" value="{$name.price|default:'0'}" name="price">
                 <span class="input-group-addon">.руб</span>
             </div>
         </div>  
