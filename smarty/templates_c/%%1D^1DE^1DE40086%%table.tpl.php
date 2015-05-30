@@ -1,9 +1,9 @@
-<?php /* Smarty version 2.6.28, created on 2015-05-28 19:55:19
+<?php /* Smarty version 2.6.28, created on 2015-05-30 13:45:04
          compiled from table.tpl */ ?>
 <h2 class="sub-header text-center">Доска объявлений</h2>
-<form>
-    <?php if ($this->_tpl_vars['exp_rows'] != ""): ?>
-        <div class="table-responsive" >
+
+    
+        <div id="board" class="table-responsive" style="display: block">
             <table class="table table-hover">
                 <thead >
                     <tr>
@@ -21,7 +21,6 @@
                 </tbody>
             </table>
         </div>
-    <?php else: ?>
-        <div class="alert alert-warning text-center" role="alert">На доске пока нет объявлений</div>
-    <?php endif; ?>
-</form>
+    
+        <div id="alert_board" class="alert alert-warning text-center" role="alert" style="display: none">На доске пока нет объявлений</div>
+    

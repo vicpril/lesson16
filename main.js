@@ -8,6 +8,7 @@ function formReset() {
     $('form input.set_form, select.set_form').val(['0', 'private', '', '641780']);
     $('input[type=submit]').val('Подать объявление');
     $('input[type=submit]').attr('formaction', 'index.php');
+    $('title').text('Доска объявлений');
 }
 
 function showExp(exp) {
@@ -26,7 +27,7 @@ function showExp(exp) {
     ]); // присвоение чеков и селектов
     $('input[type=submit]').val('Изменить объявление');
     $('input[type=submit]').attr('formaction', 'index.php?id=' + show);
-//    $('.cancel').show();
+    $('title').text('Объявление - ' + exp.title);
 }
 
 function show_alert(status, text) {
@@ -38,7 +39,7 @@ function show_alert(status, text) {
             $('#container').removeClass('alert-success').addClass('alert-danger');
             break;
     }
-    ;
+
     $('#container-info').html(text);
     $('#container').fadeIn('slow');
 }
@@ -51,20 +52,23 @@ function click_Del(btn) {
 
     $.getJSON('ajax.php?delete=' + id,
             function (response) {
+                var text = response.message;
                 if (response.status == 'success') {
                     tr.fadeOut('slow', function () {
+
                         if (id == show) {
                             formReset();
                             show = '';
                         }
                         $(this).remove();
-                        if ($('tbody tr')[0] == null) {
-                            response.message += "<br>На доске больше нет объявлений.";
+                        if ($('tbody tr').html() == null) {
+                            $('#board').hide('slow');
+                            $('#alert_board').show('slow', function () {
+                            })
                         }
-
                     });
                 }
-                show_alert(response.status, response.message);
+                show_alert(response.status, text);
             }
     );
 }
@@ -74,43 +78,40 @@ function click_Show(exp) {
     var id = tr.attr('data-id');
     $.getJSON('ajax.php?show=' + id,
             function (response) {
-                $('form.form-horizontal').fadeOut('fast', function () {
-                    formReset();
-                    showExp(response);
-                    $('form.form-horizontal').fadeIn('fast');
-                });
-                console.log(response);
+                formReset();
+                showExp(response);
             });
 }
 
-function addExpOnTable(tr, row) {
-    tr.before(row);
-    $(tr).prev(tr).find('a[name=delete]').on('click', function () {
-        click_Del(this);
-    });
-    $(tr).prev(tr).find('a[name=show]').on('click', function () {
-        click_Show(this);
-    });
+function addExpOnTable(place, row, new_exp) {
+    if (new_exp) {
+        place.prepend(row);
+        var tr = $(place).find('tr');
+    } else {
+        place.before(row);
+        var tr = $(place).prev(place);
+    }
 
-    $(tr).prev(tr).fadeIn('fast');
-
+    tr.fadeIn('fast');
 }
 
+$('tbody').on('click', 'a[name=show]', function () {
+    click_Show(this);
+});
+
+$('tbody').on('click', 'a[name=delete]', function () {
+    click_Del(this);
+});
+
+
 $(document).ready(function () {
+    if ($('tbody tr').html() == null) {
+        $('#board').hide();
+        $('#alert_board').show();
+    }
+
     $('a.cancel').on('click', function () {
-        $('form.form-horizontal').fadeOut('fast', function () {
-            formReset();
-            $('form.form-horizontal').fadeIn('fast');
-        });
-    });
-
-
-    $('a[name=show]').on('click', function () {
-        click_Show(this);
-    });
-
-    $('a[name=delete]').on('click', function () {
-        click_Del(this);
+        formReset();
     });
 
     $('form.form-horizontal').on('submit', function () {
@@ -126,19 +127,16 @@ $(document).ready(function () {
                         if (id !== '') {
                             var tr = $('tbody tr[data-id=' + id + ']');
                             tr.fadeOut('fast', function () {
-                                addExpOnTable(tr, row);
+                                addExpOnTable(tr, row, false);
+                                tr.remove();
                             });
-                            $('form.form-horizontal').fadeOut('fast', function () {
-                                formReset();
-                                $('form.form-horizontal').fadeIn('fast');
-                            });
+                            formReset();
                         } else {
-                            var tr = $('tbody tr:first');
-                            $('form.form-horizontal').fadeOut('fast', function () {
-                                formReset();
-                                $('form.form-horizontal').fadeIn('fast');
-                            });
-                            addExpOnTable(tr, row);
+                            var tr = $('tbody');
+                            formReset();
+                            addExpOnTable(tr, row, true);
+                            $('#board').show('slow');
+                            $('#alert_board').hide('slow');
                         }
                     }
                     show_alert(response.status, response.message);

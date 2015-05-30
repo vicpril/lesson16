@@ -1,7 +1,7 @@
 <h2 class="sub-header text-center">Доска объявлений</h2>
-<form>
-    {if $exp_rows != ""}
-        <div class="table-responsive" >
+
+    
+        <div id="board" class="table-responsive" style="display: block">
             <table class="table table-hover">
                 <thead >
                     <tr>
@@ -18,7 +18,6 @@
                 </tbody>
             </table>
         </div>
-    {else}
-        <div class="alert alert-warning text-center" role="alert">На доске пока нет объявлений</div>
-    {/if}
-</form>
+    
+        <div id="alert_board" class="alert alert-warning text-center" role="alert" style="display: none">На доске пока нет объявлений</div>
+    

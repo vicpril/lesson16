@@ -13,7 +13,7 @@ if (isset($_GET['delete'])) {
 
 if (isset($_GET['show'])) {
     $id = (int) $_GET['show'];
-    $result = Notice_board::instance()->display($id);
+    $result = Notice_board::instance()->displayFromAjax($id);
     echo json_encode($result);
 }
 

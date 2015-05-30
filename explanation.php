@@ -19,7 +19,6 @@ class Explanation {
         if (isset($exp['id'])) {
             $this->id = $exp['id'];
         }
-//        $this->private = $exp['private'];
         $this->seller_name = $exp['seller_name'];
         $this->email = $exp['email'];
         $this->allow_mails = $exp['allow_mails'];

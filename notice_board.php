@@ -50,30 +50,17 @@ class Notice_board {
         return self::$instance;
     }
 
-    public function display($show = '') {
-        global $smarty;
+    public function displayFromAjax($show) {
         global $mysqli;
-        
-        if ($show !== '') {
-            $result = $mysqli->selectRow('SELECT * FROM explanations WHERE id=?d', $show);
-            return $result;
-        }
+        $result = $mysqli->selectRow('SELECT * FROM explanations WHERE id=?d', $show);
+        return $result;
+    }
 
-        if (isset($_GET['show']) && isset($this->board[$_GET['show']])) {
-            $show = $_GET['show'];
-            $name = $this->board[$show]->getValue();
-            foreach ($name as &$value) {
-                $value = htmlspecialchars($value);
-            }
-            $smarty->assign('header_tpl', 'header_exp');
-            $smarty->assign('title', 'Объявление');
-            $smarty->assign('show', $show);
-            $smarty->assign('name', $name);
-        } else {
-            $smarty->assign('header_tpl', 'header');
-            $smarty->assign('title', 'Доска объявлений');
-        }
+    public function display() {
+        global $smarty;
 
+        $smarty->assign('header_tpl', 'header');
+        $smarty->assign('title', 'Доска объявлений');
         $smarty->assign('cities', self::getCitiesList());
         $smarty->assign('categories', self::getCategoriesList());
         $smarty->display('index.tpl');
